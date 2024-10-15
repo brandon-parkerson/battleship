@@ -5,7 +5,7 @@ class Ship {
     this.sunk = sunk;
   }
   hit() {
-    this.timesHit = timesHit + 1;
+    this.timesHit = this.timesHit + 1;
     return this.timesHit;
   }
   isSunk() {
@@ -16,3 +16,5 @@ class Ship {
     }
   }
 }
+
+export { Ship };

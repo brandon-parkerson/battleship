@@ -1,0 +1,2 @@
+import { Ship } from "./script";
+

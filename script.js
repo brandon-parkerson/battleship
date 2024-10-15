@@ -10,11 +10,31 @@ class Ship {
   }
   isSunk() {
     if (this.timesHit === this.length) {
-      return this.sunk = true;
+      return (this.sunk = true);
     } else {
-      return this.sunk = false;;
+      return (this.sunk = false);
     }
   }
 }
+// TODO: have placeShip pass test
 
-export { Ship };
+class Gameboard {
+  board = [
+    ["", "", "", "", "", "", "", "", "", ""], [
+      ("", "", "", "", "", "", "", "", "", "")
+    ], [("", "", "", "", "", "", "", "", "", "")], [
+      ("", "", "", "", "", "", "", "", "", "")
+    ], [("", "", "", "", "", "", "", "", "", "")], [
+      ("", "", "", "", "", "", "", "", "", "")
+    ], [("", "", "", "", "", "", "", "", "", "")], [
+      ("", "", "", "", "", "", "", "", "", "")
+    ], [("", "", "", "", "", "", "", "", "", "")], [
+      ("", "", "", "", "", "", "", "", "", "")
+    ],
+  ];
+  placeShip(ship, coordinates) {
+    return 1;
+  }
+}
+
+export { Ship, Gameboard };

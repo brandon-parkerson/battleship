@@ -31,6 +31,7 @@ class Gameboard {
       ["", "", "", "", "", "", "", "", "", ""],
       ["", "", "", "", "", "", "", "", "", ""],
     ];
+    this.misses = [];
   }
 
   getCoords(max) {
@@ -67,7 +68,7 @@ class Gameboard {
         if (board[x][y] === 1) {
           return "there is a ship there";
         } else {
-          board[x][y] = 1;
+          board[x][y] = ship;
           x++;
         }
       }
@@ -76,7 +77,7 @@ class Gameboard {
         if (board[x][y] === 1) {
           return "there is a ship there";
         } else {
-          board[x][y] = 1;
+          board[x][y] = ship;
           y++;
         }
       }
@@ -86,19 +87,19 @@ class Gameboard {
   }
 
   receiveAttack(coords) {
-    const misses = [];
     const x = coords[0];
     const y = coords[1];
     const board = this.board;
-    if (board[x][y] === 1) {
+    if (board[x][y] instanceof Ship) {
+      board[x][y].hit().isSunk();
       return "hit";
     } else {
-      misses.push(coords);
+      this.misses.push(coords);
       return "miss";
     }
-
-  } 
+  }
 }
+
 
 
 export { Ship, Gameboard };

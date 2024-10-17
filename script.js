@@ -32,6 +32,7 @@ class Gameboard {
       ["", "", "", "", "", "", "", "", "", ""],
     ];
     this.misses = [];
+    this.ships = [];
   }
 
   getCoords(max) {
@@ -82,7 +83,7 @@ class Gameboard {
         }
       }
     }
-
+    this.ships.push(ship);
     return board;
   }
 
@@ -98,8 +99,14 @@ class Gameboard {
       return "miss";
     }
   }
+
+  checkAllShips() {
+    if (this.ships.every((ship) => ship.isSunk())) {
+      return "game over";
+    } else {
+      return "still playing";
+    }
+  }
 }
-
-
 
 export { Ship, Gameboard };

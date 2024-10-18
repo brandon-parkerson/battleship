@@ -45,3 +45,7 @@ h1 {
   width: 10%;
   height: 10%;
 }
+
+.ship {
+    background-color: gray;
+}

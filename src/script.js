@@ -20,15 +20,15 @@ class Gameboard {
     const direction = this.randomDirection();
 
     if (!this.validateShipPlacement(x, y, direction, ship.length)) {
-      return this.placeShip(ship); 
+      return this.placeShip(ship);
     }
 
     for (let i = 0; i < ship.length; i++) {
       this.board[x][y] = ship;
       if (direction === "horizontal") {
-        x++; 
+        x++;
       } else {
-        y++; 
+        y++;
       }
     }
 
@@ -44,15 +44,15 @@ class Gameboard {
     if (direction === "vertical" && y + length > this.board[0].length) {
       return false;
     }
-    
+
     for (let i = 0; i < length; i++) {
       if (this.board[x][y] !== "") {
         return false;
       }
       if (direction === "horizontal") {
-        x++; 
+        x++;
       } else {
-        y++; 
+        y++;
       }
     }
     return true;
@@ -62,6 +62,7 @@ class Gameboard {
     const [x, y] = coords;
     if (this.board[x][y] instanceof Ship) {
       this.board[x][y].hit();
+      this.checkAllShips();
       return "hit";
     } else {
       this.misses.push(coords);
@@ -71,7 +72,7 @@ class Gameboard {
 
   checkAllShips() {
     return this.ships.every((ship) => ship.isSunk())
-      ? "game over"
+      ? console.log("game over")
       : "still playing";
   }
 }
@@ -79,11 +80,12 @@ class Gameboard {
 class Ship {
   constructor(length, timesHit, sunk) {
     this.length = length;
-    this.timesHit = timesHit;
+    this.timesHit = 0;
     this.sunk = sunk;
   }
   hit() {
     this.timesHit = this.timesHit + 1;
+    console.log("hit");
     return this.timesHit;
   }
   isSunk() {

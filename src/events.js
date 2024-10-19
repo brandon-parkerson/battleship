@@ -37,6 +37,7 @@ function generateBoards(player, computer) {
     for (let j = 0; j < computer.gameboard.board[i].length; j++) {
       const box = document.createElement("div");
       box.classList.add("box");
+      box.classList.add("computer-box");
 
       // Check if there's a ship at the current coordinates
       if (computer.gameboard.board[i][j] instanceof Ship) {
@@ -46,6 +47,7 @@ function generateBoards(player, computer) {
       computerBoard.appendChild(box);
     }
   }
+  playGame(player, computer);
 }
 
 function createShips(player, computer) {
@@ -87,3 +89,41 @@ function shuffle() {
   location.reload();
 }
 
+function playGame(player, computer) {
+  const computerBoxes = document.getElementsByClassName("computer-box");
+  for (let i = 0; i < computerBoxes.length; i++) {
+    const x = Math.floor(i / 10);
+    const y = i % 10;
+
+    const computerBox = computerBoxes[i];
+    computerBox.addEventListener("click", () =>
+      checkHit(computerBox, x, y, computer.gameboard)
+    );
+  }
+}
+
+function checkHit(box, x, y, gameboard) {
+  const result = gameboard.receiveAttack([x, y]);
+  
+  if (result === "hit") {
+    const ship = gameboard.board[x][y];
+    box.classList.add("hit");
+    
+    
+    checkSunk(gameboard, x, y)
+  } else {
+    box.classList.add("miss");
+    console.log("miss");
+  }
+  
+}
+
+function checkSunk(gameboard, x, y) {
+  const ship = gameboard.board[x][y];
+  if (ship instanceof Ship && ship.isSunk() === true) {
+    console.log("ship is sunk")
+    
+  }
+}
+
+playGame();

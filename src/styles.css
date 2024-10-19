@@ -63,6 +63,7 @@ h1 {
   align-self: center;
 }
 
+
 .shuffle:hover {
   background-color: rgb(15, 151, 15);
   cursor: pointer;
@@ -71,4 +72,12 @@ h1 {
 .player-side {
   display: flex;
   flex-direction: column;
+}
+
+.miss {
+  background-color: aquamarine;
+}
+
+.hit {
+  background-color: red;
 }

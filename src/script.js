@@ -20,15 +20,15 @@ class Gameboard {
     const direction = this.randomDirection();
 
     if (!this.validateShipPlacement(x, y, direction, ship.length)) {
-      return this.placeShip(ship); // Retry if invalid placement
+      return this.placeShip(ship); 
     }
 
     for (let i = 0; i < ship.length; i++) {
       this.board[x][y] = ship;
       if (direction === "horizontal") {
-        x++; // Move right for horizontal placement
+        x++; 
       } else {
-        y++; // Move down for vertical placement
+        y++; 
       }
     }
 
@@ -44,15 +44,15 @@ class Gameboard {
     if (direction === "vertical" && y + length > this.board[0].length) {
       return false;
     }
-    // Check if any space is already occupied
+    
     for (let i = 0; i < length; i++) {
       if (this.board[x][y] !== "") {
         return false;
       }
       if (direction === "horizontal") {
-        x++; // Check the next horizontal space
+        x++; 
       } else {
-        y++; // Check the next vertical space
+        y++; 
       }
     }
     return true;

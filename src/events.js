@@ -5,9 +5,12 @@ import "./styles.css";
 document.addEventListener("DOMContentLoaded", (event) => {
   const player = new Player();
   const computer = new Player();
-  
-  createShips(player, computer);  
-  generateBoards(player, computer);  
+
+  createShips(player, computer);
+  generateBoards(player, computer);
+
+  const shuffleButton = document.querySelector(".shuffle");
+  shuffleButton.addEventListener("click", shuffle);
 });
 
 function generateBoards(player, computer) {
@@ -46,7 +49,6 @@ function generateBoards(player, computer) {
 }
 
 function createShips(player, computer) {
-  
   const ship1 = new Ship(5, 0, false);
   const ship2 = new Ship(3, 0, false);
   const ship3 = new Ship(3, 0, false);
@@ -58,7 +60,6 @@ function createShips(player, computer) {
   const ship9 = new Ship(1, 0, false);
   const ship10 = new Ship(1, 0, false);
 
-  
   player.gameboard.placeShip(ship1);
   player.gameboard.placeShip(ship2);
   player.gameboard.placeShip(ship3);
@@ -70,7 +71,6 @@ function createShips(player, computer) {
   player.gameboard.placeShip(ship9);
   player.gameboard.placeShip(ship10);
 
-  
   computer.gameboard.placeShip(ship1);
   computer.gameboard.placeShip(ship2);
   computer.gameboard.placeShip(ship3);
@@ -82,3 +82,8 @@ function createShips(player, computer) {
   computer.gameboard.placeShip(ship9);
   computer.gameboard.placeShip(ship10);
 }
+
+function shuffle() {
+  location.reload();
+}
+

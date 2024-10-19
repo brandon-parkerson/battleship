@@ -49,3 +49,26 @@ h1 {
 .ship {
     background-color: gray;
 }
+
+.shuffle {
+  width: 10vw;
+  height: 5vh;
+  background-color: green;
+  color: white;
+  font-family: "Roboto";
+  font-size: 20px;
+  font-weight: bold;
+  border: 1px solid green;
+  border-radius: 10px;
+  align-self: center;
+}
+
+.shuffle:hover {
+  background-color: rgb(15, 151, 15);
+  cursor: pointer;
+}
+
+.player-side {
+  display: flex;
+  flex-direction: column;
+}

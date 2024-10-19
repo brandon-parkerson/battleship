@@ -97,33 +97,67 @@ function playGame(player, computer) {
 
     const computerBox = computerBoxes[i];
     computerBox.addEventListener("click", () =>
-      checkHit(computerBox, x, y, computer.gameboard)
+      checkHit(computerBox, x, y, computer.gameboard, player)
     );
   }
 }
 
-function checkHit(box, x, y, gameboard) {
+function checkHit(box, x, y, gameboard, player) {
   const result = gameboard.receiveAttack([x, y]);
-  
+
   if (result === "hit") {
-    const ship = gameboard.board[x][y];
     box.classList.add("hit");
-    
-    
-    checkSunk(gameboard, x, y)
+
+    checkSunk(gameboard, x, y);
   } else {
     box.classList.add("miss");
     console.log("miss");
   }
-  
+  computerTurn(player);
 }
 
 function checkSunk(gameboard, x, y) {
   const ship = gameboard.board[x][y];
   if (ship instanceof Ship && ship.isSunk() === true) {
-    console.log("ship is sunk")
-    
+    console.log("ship is sunk");
+    gameboard.checkAllShips();
   }
+}
+
+function computerTurn(player) {
+  // Get a random coordinate
+  let [x, y] = player.gameboard.getCoords(10);
+
+  // Check if this coordinate has already been attacked
+  while (
+    player.gameboard.misses.some(
+      (coords) => coords[0] === x && coords[1] === y
+    ) ||
+    (player.gameboard.board[x][y] instanceof Ship &&
+      player.gameboard.board[x][y].timesHit > 0)
+  ) {
+    // Keep picking random coordinates until an unhit one is found
+    [x, y] = player.gameboard.getCoords(10);
+  }
+
+  // Perform the attack
+  const result = player.gameboard.receiveAttack([x, y]);
+
+  // Get the player's board DOM element
+  const playerBoard = document.querySelector(".player-board");
+  const box = playerBoard.children[x * 10 + y]; // Find the corresponding box
+
+  if (result === "hit") {
+    box.classList.add("hit");
+    console.log(`Computer hit at (${x}, ${y})`);
+    checkSunk(player.gameboard, x, y);
+  } else {
+    box.classList.add("miss");
+    console.log(`Computer missed at (${x}, ${y})`);
+  }
+
+  // Check if all ships are sunk
+  player.gameboard.checkAllShips();
 }
 
 playGame();

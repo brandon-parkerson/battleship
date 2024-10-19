@@ -71,9 +71,11 @@ class Gameboard {
   }
 
   checkAllShips() {
-    return this.ships.every((ship) => ship.isSunk())
-      ? console.log("game over")
-      : "still playing";
+    if (this.ships.every((ship) => ship.isSunk())) {
+      return true;
+    } else {
+      return false;
+    }
   }
 }
 

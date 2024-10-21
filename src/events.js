@@ -51,38 +51,27 @@ function generateBoards(player, computer) {
 }
 
 function createShips(player, computer) {
-  const ship1 = new Ship(5, 0, false);
-  const ship2 = new Ship(3, 0, false);
-  const ship3 = new Ship(3, 0, false);
-  const ship4 = new Ship(2, 0, false);
-  const ship5 = new Ship(2, 0, false);
-  const ship6 = new Ship(2, 0, false);
-  const ship7 = new Ship(1, 0, false);
-  const ship8 = new Ship(1, 0, false);
-  const ship9 = new Ship(1, 0, false);
-  const ship10 = new Ship(1, 0, false);
+  player.gameboard.placeShip(new Ship(5, 0, false));
+  player.gameboard.placeShip(new Ship(3, 0, false));
+  player.gameboard.placeShip(new Ship(3, 0, false));
+  player.gameboard.placeShip(new Ship(2, 0, false));
+  player.gameboard.placeShip(new Ship(2, 0, false));
+  player.gameboard.placeShip(new Ship(2, 0, false));
+  player.gameboard.placeShip(new Ship(1, 0, false));
+  player.gameboard.placeShip(new Ship(1, 0, false));
+  player.gameboard.placeShip(new Ship(1, 0, false));
+  player.gameboard.placeShip(new Ship(1, 0, false));
 
-  player.gameboard.placeShip(ship1);
-  player.gameboard.placeShip(ship2);
-  player.gameboard.placeShip(ship3);
-  player.gameboard.placeShip(ship4);
-  player.gameboard.placeShip(ship5);
-  player.gameboard.placeShip(ship6);
-  player.gameboard.placeShip(ship7);
-  player.gameboard.placeShip(ship8);
-  player.gameboard.placeShip(ship9);
-  player.gameboard.placeShip(ship10);
-
-  computer.gameboard.placeShip(ship1);
-  computer.gameboard.placeShip(ship2);
-  computer.gameboard.placeShip(ship3);
-  computer.gameboard.placeShip(ship4);
-  computer.gameboard.placeShip(ship5);
-  computer.gameboard.placeShip(ship6);
-  computer.gameboard.placeShip(ship7);
-  computer.gameboard.placeShip(ship8);
-  computer.gameboard.placeShip(ship9);
-  computer.gameboard.placeShip(ship10);
+  computer.gameboard.placeShip(new Ship(5, 0, false));
+  computer.gameboard.placeShip(new Ship(3, 0, false));
+  computer.gameboard.placeShip(new Ship(3, 0, false));
+  computer.gameboard.placeShip(new Ship(2, 0, false));
+  computer.gameboard.placeShip(new Ship(2, 0, false));
+  computer.gameboard.placeShip(new Ship(2, 0, false));
+  computer.gameboard.placeShip(new Ship(1, 0, false));
+  computer.gameboard.placeShip(new Ship(1, 0, false));
+  computer.gameboard.placeShip(new Ship(1, 0, false));
+  computer.gameboard.placeShip(new Ship(1, 0, false));
 }
 
 function shuffle() {
@@ -96,9 +85,12 @@ function playGame(player, computer) {
     const y = i % 10;
 
     const computerBox = computerBoxes[i];
-    computerBox.addEventListener("click", () =>
-      checkHit(computerBox, x, y, computer.gameboard, player)
-    );
+    computerBox.addEventListener("click", () => {
+      if (!computerBox.classList.contains("clicked")) {
+        checkHit(computerBox, x, y, computer.gameboard, player);
+        computerBox.classList.add("clicked");
+      }
+    });
   }
 }
 
@@ -120,7 +112,12 @@ function checkSunk(gameboard, x, y) {
   const ship = gameboard.board[x][y];
   if (ship instanceof Ship && ship.isSunk() === true) {
     console.log("ship is sunk");
-    gameboard.checkAllShips();
+    markSunkShip(ship, gameboard);
+
+    const gameOver = gameboard.checkAllShips();
+    if (gameOver === true) {
+      alert("game over");
+    }
   }
 }
 
@@ -158,6 +155,15 @@ function computerTurn(player) {
 
   // Check if all ships are sunk
   player.gameboard.checkAllShips();
+}
+
+function markSunkShip(ship, gameboard) {
+  ship.coordinates.forEach(([x, y]) => {
+    const box = document.querySelector(
+      `.computer-board .box:nth-child(${x * 10 + y + 1})`
+    );
+    box.classList.add("sunk");
+  });
 }
 
 playGame();

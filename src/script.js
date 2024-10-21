@@ -19,12 +19,15 @@ class Gameboard {
     let [x, y] = this.getCoords(this.board.length);
     const direction = this.randomDirection();
 
+    ship.coordinates = [];
+
     if (!this.validateShipPlacement(x, y, direction, ship.length)) {
       return this.placeShip(ship);
     }
 
     for (let i = 0; i < ship.length; i++) {
       this.board[x][y] = ship;
+      ship.coordinates.push([x, y]);
       if (direction === "horizontal") {
         x++;
       } else {

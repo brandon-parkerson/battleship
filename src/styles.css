@@ -81,3 +81,7 @@ h1 {
 .hit {
   background-color: red;
 }
+
+.sunk {
+  background-color: black;
+}

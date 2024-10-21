@@ -80,17 +80,23 @@ function shuffle() {
 
 function playGame(player, computer) {
   const computerBoxes = document.getElementsByClassName("computer-box");
+
   for (let i = 0; i < computerBoxes.length; i++) {
     const x = Math.floor(i / 10);
     const y = i % 10;
 
     const computerBox = computerBoxes[i];
-    computerBox.addEventListener("click", () => {
-      if (!computerBox.classList.contains("clicked")) {
-        checkHit(computerBox, x, y, computer.gameboard, player);
-        computerBox.classList.add("clicked");
-      }
-    });
+
+    // Add listener only if it's not already clicked
+    if (!computerBox.classList.contains("click-added")) {
+      computerBox.addEventListener("click", () => {
+        if (!computerBox.classList.contains("clicked")) {
+          checkHit(computerBox, x, y, computer.gameboard, player);
+          computerBox.classList.add("clicked");
+        }
+      });
+      computerBox.classList.add("click-added"); // Mark as listener added
+    }
   }
 }
 
@@ -100,7 +106,7 @@ function checkHit(box, x, y, gameboard, player) {
   if (result === "hit") {
     box.classList.add("hit");
 
-    checkSunk(gameboard, x, y);
+    checkSunk(gameboard, x, y, false);
   } else {
     box.classList.add("miss");
     console.log("miss");
@@ -108,11 +114,11 @@ function checkHit(box, x, y, gameboard, player) {
   computerTurn(player);
 }
 
-function checkSunk(gameboard, x, y) {
+function checkSunk(gameboard, x, y, isPlayer) {
   const ship = gameboard.board[x][y];
   if (ship instanceof Ship && ship.isSunk() === true) {
     console.log("ship is sunk");
-    markSunkShip(ship, gameboard);
+    markSunkShip(ship, gameboard, isPlayer);
 
     const gameOver = gameboard.checkAllShips();
     if (gameOver === true) {
@@ -147,7 +153,7 @@ function computerTurn(player) {
   if (result === "hit") {
     box.classList.add("hit");
     console.log(`Computer hit at (${x}, ${y})`);
-    checkSunk(player.gameboard, x, y);
+    checkSunk(player.gameboard, x, y, true);
   } else {
     box.classList.add("miss");
     console.log(`Computer missed at (${x}, ${y})`);
@@ -157,7 +163,8 @@ function computerTurn(player) {
   player.gameboard.checkAllShips();
 }
 
-function markSunkShip(ship, gameboard) {
+function markSunkShip(ship, gameboard, isPlayer) {
+  const boardSelector = isPlayer ? ".player-board" : ".computer-board";
   ship.coordinates.forEach(([x, y]) => {
     const box = document.querySelector(
       `.computer-board .box:nth-child(${x * 10 + y + 1})`
